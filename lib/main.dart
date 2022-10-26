@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_course_one/screens/login_screen.dart';
+import 'package:flutter_course_one/screens/welcome_dart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,25 +19,41 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
-
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late SharedPreferences preferences;
+
+  Future init() async {
+    preferences = await SharedPreferences.getInstance();
+    bool? admin = preferences.getBool("admin");
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    init();
+
     Timer(Duration(seconds: 3), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
+      if (preferences.getBool("admin") == true) {
+        print(preferences.getBool("admin"));
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => Welcome()));
+      } else {
+        print(preferences.getBool("admin"));
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
+      }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +79,3 @@ class _HomePageState extends State<HomePage> {
     return Container();
   }
 }
-
-
-
