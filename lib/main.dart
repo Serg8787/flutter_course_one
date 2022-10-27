@@ -28,29 +28,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late SharedPreferences preferences;
 
-  Future init() async {
-    preferences = await SharedPreferences.getInstance();
-    bool? admin = preferences.getBool("admin");
-  }
+
+  // Future init() async {
+  //   preferences = await SharedPreferences.getInstance();
+  //   bool? admin = preferences.getBool("admin");
+  // }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    init();
+
 
     Timer(Duration(seconds: 3), () {
-      if (preferences.getBool("admin") == true) {
-        print(preferences.getBool("admin"));
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (_) => Welcome()));
-      } else {
-        print(preferences.getBool("admin"));
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
-      }
+
     });
   }
 
