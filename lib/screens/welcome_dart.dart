@@ -12,7 +12,7 @@ class _WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("Вітаю")
+        child: Text("Wellcom")
       ),
     );
   }
