@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course_one/screens/welcome_dart.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -59,10 +60,17 @@ class LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
+                      if(nameController.text == "admin" &&
+                      passwordController.text == "12345"){
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (_) => Welcome()));
+                      } else {
+                        print(nameController.text);
+                        print(passwordController.text);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Логин и пароль неправильные")));
+                      }
                     },
-                  )
+                  ),
               ),
               Row(
                 children: <Widget>[
