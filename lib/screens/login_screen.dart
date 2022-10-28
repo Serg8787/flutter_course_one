@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_course_one/screens/welcome_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +11,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool? isCheckedCheckBox = false;
-  final prefs = await SharedPreferences.getInstance();
+  static const adminKey = "adminData";
+
+
+  Future setBoolFromCheckBox(bool isCheckBox) async {
+    var prefs =await SharedPreferences.getInstance();
+    prefs.setBool(adminKey,isCheckBox);
+  }
+  @override
+  void initState() {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // TODO: implement initState
+    super.initState();
+    setBoolFromCheckBox(false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +38,9 @@ class LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
@@ -38,6 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Login',
+                    suffixIcon: Icon(Icons.login),
                   ),
                 ),
               ),
@@ -49,15 +70,15 @@ class LoginScreenState extends State<LoginScreen> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
+                    suffixIcon: Icon(Icons.password),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
                   Container(
                     height: 50,
@@ -67,12 +88,10 @@ class LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         if (nameController.text == "admin" &&
                             passwordController.text == "12345") {
-                          Navigator.of(context).pushReplacement(
+                          Navigator.of(context).push(
                               MaterialPageRoute(builder: (_) => Welcome()));
                         } else {
-                          print(nameController.text);
-                          print(passwordController.text);
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content:
                                   Text("Login and password are not correct")));
                         }
@@ -82,10 +101,16 @@ class LoginScreenState extends State<LoginScreen> {
                   Container(
                     child: Checkbox(
                         value: isCheckedCheckBox,
-                        onChanged: (newBool) {
+                        onChanged: (newBool) async {
                           setState(() {
                             isCheckedCheckBox = newBool;
                           });
+                          if(isCheckedCheckBox ==true &&
+                              nameController.text == "admin"&&
+                          passwordController.text=="12345"){
+                            setBoolFromCheckBox(isCheckedCheckBox!);
+                            print(setBoolFromCheckBox(isCheckedCheckBox!));
+                          }
                         }),
                   ),
                 ],

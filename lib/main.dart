@@ -28,25 +28,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const adminKey = "adminData";
 
 
-  // Future init() async {
-  //   preferences = await SharedPreferences.getInstance();
-  //   bool? admin = preferences.getBool("admin");
-  // }
+  Future getBool() async {
+    var prefs =await SharedPreferences.getInstance();
+    prefs.getBool(adminKey)?? false;
+  }
 
 
 
   @override
   void initState() {
-    // TODO: implement initState
+    WidgetsFlutterBinding.ensureInitialized();
     super.initState();
 
-
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
+      print(getBool());
         Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
-
+            .push(MaterialPageRoute(builder: (_) => LoginScreen()));
     });
   }
 
