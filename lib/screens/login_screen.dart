@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_course_one/PreferenceService.dart';
 import 'package:flutter_course_one/screens/welcome_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,21 +16,11 @@ class LoginScreenState extends State<LoginScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool? isCheckedCheckBox = false;
-  static const adminKey = "adminData";
 
 
-  Future setBoolFromCheckBox(bool isCheckBox) async {
-    var prefs =await SharedPreferences.getInstance();
-    prefs.setBool(adminKey,isCheckBox);
-  }
-  @override
-  void initState() {
-    WidgetsFlutterBinding.ensureInitialized();
+  final _preferenceService = PreferenceService();
 
-    // TODO: implement initState
-    super.initState();
-    setBoolFromCheckBox(false);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +69,11 @@ class LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     height: 50,
+                    width: 300,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
                       child: const Text('Login'),
@@ -108,8 +100,10 @@ class LoginScreenState extends State<LoginScreen> {
                           if(isCheckedCheckBox ==true &&
                               nameController.text == "admin"&&
                           passwordController.text=="12345"){
-                            setBoolFromCheckBox(isCheckedCheckBox!);
-                            print(setBoolFromCheckBox(isCheckedCheckBox!));
+                            _preferenceService.setData(isCheckedCheckBox!);
+                            print(_preferenceService.setData(isCheckedCheckBox!));
+                           _preferenceService.setData(isCheckedCheckBox!).then((value) =>
+                           print("login + $isCheckedCheckBox"));
                           }
                         }),
                   ),

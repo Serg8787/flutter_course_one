@@ -10,9 +10,11 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("Wellcom")
+    return const Scaffold(
+      body: Center(
+        child: Text("Wellcome",
+          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35),
+        ),
       ),
     );
   }
