@@ -11,6 +11,7 @@ class PreferenceService {
   }
 
   Future<bool> getData() async {
+
     final prefs = await SharedPreferences.getInstance();
     final bool value =  prefs.getBool(adminKey)??false;
 
