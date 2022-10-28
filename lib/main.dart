@@ -33,17 +33,18 @@ class _SplashScreenState extends State<SplashScreen> {
   static const adminKey = "adminData";
   final _preferenceService = PreferenceService();
 
-  getBoolValues() async {
+  Future<bool> getBoolValues() async {
 
     bool value = await _preferenceService.getData();
     return value;
   }
 
+
+
   @override
   initState()  {
     WidgetsFlutterBinding.ensureInitialized();
     super.initState();
-
 
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
@@ -62,16 +63,3 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
