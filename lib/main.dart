@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_course_one/screens/login_screen.dart';
-import 'package:flutter_course_one/screens/welcome_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'PreferenceService.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,32 +31,30 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   static const adminKey = "adminData";
+  final _preferenceService = PreferenceService();
 
+  getBoolValues() async {
 
-  Future getBool() async {
-    var prefs =await SharedPreferences.getInstance();
-    prefs.getBool(adminKey)?? false;
+    bool value = await _preferenceService.getData();
+    return value;
   }
 
-
-
   @override
-  void initState() {
+  initState()  {
     WidgetsFlutterBinding.ensureInitialized();
     super.initState();
 
+
     Timer(const Duration(seconds: 3), () {
-      print(getBool());
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => LoginScreen()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => LoginScreen()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        // Сделать на весь экран
+      body: Center(     // Сделать на весь экран
 
         child: Image.asset("assets/images/flutter.png"),
       ),
